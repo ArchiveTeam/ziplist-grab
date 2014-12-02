@@ -33,14 +33,16 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   
   html = read_file(file)
   
-  for customurl in string.match(html, '"[^"]+":{"[^"]+":"(http[s]?://[^"]+)"') do
-    table.insert(urls, { url=customurl })
-  end
-  for customurl in string.match(url, 'http[s]?://www%.ziplist%.com(/[^/]+/[^/]+/.+[^/])') do
-    local newbase = "http://3po.ziplist.com/recipe/tags?url="
-    local newend = "&jsonp=CN.ad.ziplist.tags="
-    local newurl = newbase..customurl..newend
-    table.insert(urls, { url=newurl })
+  if string.match(url, "http[s]?://www%.ziplist%.com/[^/]+/[^/]+/.+[^/]") then
+    for customurl in string.gmatch(html, '"[^"]+":{"[^"]+":"(http[s]?://[^"]+)"') do
+      table.insert(urls, { url=customurl })
+    end
+    for customurl in string.gmatch(url, 'http[s]?://www%.ziplist%.com(/[^/]+/[^/]+/.+[^/])') do
+      local newbase = "http://3po.ziplist.com/recipe/tags?url="
+      local newend = "&jsonp=CN.ad.ziplist.tags="
+      local newurl = newbase..customurl..newend
+      table.insert(urls, { url=newurl })
+    end
   end
   
   return urls
@@ -55,15 +57,6 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   url_count = url_count + 1
   io.stdout:write(url_count .. "=" .. status_code .. " " .. url["url"] .. ".  \n")
   io.stdout:flush()
-  
-  if (status_code >= 200 and status_code <= 399) or status_code == 403 then
-    if string.match(url["url"], "https://") then
-      local newurl = string.gsub(url["url"], "https://", "http://")
-      downloaded[newurl] = true
-    else
-      downloaded[url["url"]] = true
-    end
-  end
   
   if status_code >= 500 or
     (status_code >= 400 and status_code ~= 404 and status_code ~= 403) then
