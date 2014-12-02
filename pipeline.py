@@ -195,6 +195,9 @@ class WgetArgs(object):
         
         assert item_type in ("recipe")
         
+        if random.randint(0,100) == 1:
+            wget_args.extend(["--page-requisites"])
+        
         if item_type == 'recipe':
             suffixesa = string.digits
             suffixesb = string.digits
