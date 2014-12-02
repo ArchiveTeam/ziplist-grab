@@ -195,7 +195,7 @@ class WgetArgs(object):
         
         assert item_type in ("recipe")
         
-        if randint(0,100) == 11:
+        if random.randint(0,100) == 11:
             wget_args.extend(["--page-requisites"])
         
         if item_type == 'recipe':
