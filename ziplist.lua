@@ -60,8 +60,23 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
   io.stdout:write(url_count .. "=" .. status_code .. " " .. url["url"] .. ".  \n")
   io.stdout:flush()
   
-  if status_code >= 500 or
-    (status_code >= 400 and status_code ~= 404 and status_code ~= 403) then
+  if status_code == 410 then
+    io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
+    io.stdout:flush()
+
+    os.execute("sleep 1")
+
+    tries = tries + 1
+
+    if tries >= 5 then
+      io.stdout:write("\nI give up...\n")
+      io.stdout:flush()
+      return wget.actions.EXIT
+    else
+      return wget.actions.CONTINUE
+    end
+  elseif status_code >= 500 or
+    (status_code >= 400 and status_code ~= 404 and status_code ~= 403 and status_code ~= 410) then
     io.stdout:write("\nServer returned "..http_stat.statcode..". Sleeping.\n")
     io.stdout:flush()
 
