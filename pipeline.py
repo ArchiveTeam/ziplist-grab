@@ -175,7 +175,6 @@ class WgetArgs(object):
             "--rotate-dns",
 #            "--recursive", "--level=inf",
             "--no-parent",
-#            "--page-requisites",
             "--timeout", "30",
             "--tries", "inf",
             "--domains", "ziplist.com",
@@ -195,6 +194,9 @@ class WgetArgs(object):
         item['item_value'] = item_value
         
         assert item_type in ("recipe")
+        
+        if randint(0,100) == 11:
+            wget_args.extend(["--page-requisites"])
         
         if item_type == 'recipe':
             suffixesa = string.digits
