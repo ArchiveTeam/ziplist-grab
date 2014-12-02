@@ -4,7 +4,6 @@ JSON = (loadfile "JSON.lua")()
 
 local url_count = 0
 local tries = 0
-local item_type = os.getenv('item_type')
 
 load_json_file = function(file)
   if file then
