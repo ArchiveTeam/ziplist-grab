@@ -10,6 +10,17 @@ local item_value = os.getenv('item_value')
 local downloaded = {}
 local addedtolist = {}
 
+load_json_file = function(file)
+  if file then
+    local f = io.open(file)
+    local data = f:read("*all")
+    f:close()
+    return JSON:decode(data)
+  else
+    return nil
+  end
+end
+
 read_file = function(file)
   if file then
     local f = assert(io.open(file))
