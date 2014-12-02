@@ -195,15 +195,15 @@ class WgetArgs(object):
         
         assert item_type in ("recipe")
         
-        if random.randint(0,100) == 11:
-            wget_args.extend(["--page-requisites"])
-        
         if item_type == 'recipe':
             suffixesa = string.digits
             suffixesb = string.digits
             
             for url in ['http://www.ziplist.com/recipes/{0}{1}{2}'.format(item_value, a, b) for a in suffixesa for b in suffixesb]:
                 wget_args.append(url)
+            
+            if random.randint(0,100) == 1:
+                wget_args.extend(["--page-requisites"])
             
         else:
             raise Exception('Unknown item')
