@@ -175,7 +175,7 @@ class WgetArgs(object):
             "--rotate-dns",
 #            "--recursive", "--level=inf",
             "--no-parent",
-            "--page-requisites",
+#            "--page-requisites",
             "--timeout", "30",
             "--tries", "inf",
             "--domains", "ziplist.com",

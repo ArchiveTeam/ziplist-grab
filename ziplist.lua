@@ -5,10 +5,6 @@ JSON = (loadfile "JSON.lua")()
 local url_count = 0
 local tries = 0
 local item_type = os.getenv('item_type')
-local item_value = os.getenv('item_value')
-
-local downloaded = {}
-local addedtolist = {}
 
 load_json_file = function(file)
   if file then
@@ -32,13 +28,6 @@ read_file = function(file)
   end
 end
 
-wget.callbacks.download_child_p = function(urlpos, parent, depth, start_url_parsed, iri, verdict, reason)
-  
-  return false
-  
-end
-
-
 wget.callbacks.get_urls = function(file, url, is_css, iri)
   local urls = {}
   local html = nil
@@ -46,23 +35,18 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
   html = read_file(file)
   
   for customurl in string.match(html, '"[^"]+":{"[^"]+":"(http[s]?://[^"]+)"') do
-    if downloaded[customurl] ~= true and addedtolist[customurl] ~= true then
-      table.insert(urls, { url=customurl })
-      addedtolist[customurl] = true
-    end
+    table.insert(urls, { url=customurl })
   end
   for customurl in string.match(url, 'http[s]?://www%.ziplist%.com(/[^/]+/[^/]+/.+[^/])') do
     local newbase = "http://3po.ziplist.com/recipe/tags?url="
     local newend = "&jsonp=CN.ad.ziplist.tags="
     local newurl = newbase..customurl..newend
-    if downloaded[newurl] ~= true and addedtolist[newurl] ~= true then
-      table.insert(urls, { url=newurl })
-      addedtolist[newurl] = true
-    end
+    table.insert(urls, { url=newurl })
   end
   
-end
+  return urls
   
+end
 
 wget.callbacks.httploop_result = function(url, err, http_stat)
   -- NEW for 2014: Slightly more verbose messages because people keep
