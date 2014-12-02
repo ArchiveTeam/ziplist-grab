@@ -202,7 +202,7 @@ class WgetArgs(object):
             suffixesa = string.digits
             suffixesb = string.digits
             
-            for url in [' http://www.ziplist.com/recipes/{0}{1}{2}'.format(item_value, a, b) for a in suffixesa for b in suffixesb]:
+            for url in ['http://www.ziplist.com/recipes/{0}{1}{2}'.format(item_value, a, b) for a in suffixesa for b in suffixesb]:
                 wget_args.append(url)
             
         else:
