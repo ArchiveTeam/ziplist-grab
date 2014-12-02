@@ -202,9 +202,6 @@ class WgetArgs(object):
             for url in ['http://www.ziplist.com/recipes/{0}{1}{2}'.format(item_value, a, b) for a in suffixesa for b in suffixesb]:
                 wget_args.append(url)
             
-            if random.randint(0,100) == 1:
-                wget_args.extend(["--page-requisites"])
-            
         else:
             raise Exception('Unknown item')
         
@@ -240,7 +237,7 @@ pipeline = Pipeline(
     WgetDownload(
         WgetArgs(),
         max_tries=2,
-        accept_on_exit_code=[0, 4, 8],
+        accept_on_exit_code=[0, 8],
         env={
             "item_dir": ItemValue("item_dir"),
             "item_value": ItemValue("item_value"),
