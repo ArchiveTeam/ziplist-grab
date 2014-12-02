@@ -41,7 +41,9 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       local newbase = "http://3po.ziplist.com/recipe/tags?url="
       local newend = "&jsonp=CN.ad.ziplist.tags="
       local newurl = newbase..customurl..newend
+      local newurl2 = newbase..customurl
       table.insert(urls, { url=newurl })
+      table.insert(urls, { url=newurl2 })
     end
   end
   
